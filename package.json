@@ -1,0 +1,62 @@
+{
+  "name": "steroid",
+  "version": "0.0.1",
+  "description": "very futuristic",
+  "main": "run.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc *.ts && tsc ~/project/watermelon/js/*.ts",
+    "start": "npm run compile && cross-env DEBUG=true electron .",
+    "deploy": "electron-builder --linux"
+  },
+  "author": {
+    "name": "cottons",
+    "email": "kimtaeyoung0205@naver.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/cottons-kr/watermelon",
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "cross-env": "^7.0.3",
+    "electron": "^17.1.2",
+    "electron-builder": "^22.14.13",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  },
+  "build": {
+    "productName": "watermelon",
+    "appId": "com.serendev.watermelon",
+    "asar": true,
+    "protocols": {
+      "name": "watermelon",
+      "schemes": [
+        "watermelon"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "tar.gz"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "directories": {
+      "buildResources": "./resources/installer/",
+      "output": "./dist/",
+      "app": "."
+    }
+  },
+  "dependencies": {
+    "@types/puppeteer": "^5.4.5",
+    "billboard-top-100": "^2.6.2",
+    "puppeteer": "^13.5.1"
+  }
+}

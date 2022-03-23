@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+body {
+    background-color: #485869;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.root {
+    width: 100%;
+    height: 100%;
+}
+
+#playlistRoot {
+    width: 15vw;
+    height: 41vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    left: 50px;
+    top: 50px;
+    position: absolute;
+}
+
+#dragBar {
+    width: 100%;
+    height: 2vh;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+#playlistRoot p {
+    padding: 0.8vh;
+    color: black;
+}
+
+#playlistEdit {
+    width: 100%;
+    height: 5vh;
+    display: flex;
+
+    flex-direction: row;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}

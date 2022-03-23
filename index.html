@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/default.css">
+    <link rel="stylesheet" href="css/playlistEdit.css">
+    <link rel="stylesheet" href="css/playlist.css">
+    <title>steroid</title>
+</head>
+<body>
+    <div class="root">
+        <div id="playlistRoot">
+            <div id="dragBar"></div>
+            <p>플레이리스트</p>
+            <div id="playlist">
+                <div id="parentDir"><img src="asset/back.svg"></div>
+                <div id="content">음악샘플</div>
+            </div>
+            <div id="playlistEdit">
+                <div id="uploadFolder">
+                    <label for="uploadFolerInput"><img src="asset/add-folder.svg"></label>
+                    <input id="uploadFolerInput" type="file" webkitdirectory multiple />
+                </div>
+                <div id="youtubeList">
+                    <img src="asset/youtube.svg">
+                </div>
+            </div>
+            <div id="youtubeListInputPopup">
+                <p>링크를 붙여넣으세요</p>
+                <input type="text">
+            </div>
+        </div>
+        <div id="controlRoot"></div>
+        <div id="spectrum"></div>
+    </div>
+
+    <script>var exports = {};</script>
+    <script charset="utf-8" src="js/windowDrag.js"></script>
+    <script charset="utf-8" src="js/loadYoutubeList.js"></script>
+    <script charset="utf-8" src="js/loadFolder.js"></script>
+</body>
+</html>

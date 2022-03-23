@@ -1,0 +1,46 @@
+#playlistEdit input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip:rect(0,0,0,0);
+    border: 0;
+}
+
+#playlistEdit label {
+    cursor: pointer;
+}
+
+#playlistEdit img {
+    width: auto;
+    height: 100%;
+}
+
+#uploadFolder, #youtubeList {
+    width: fit-content;
+    height: 63%;
+    padding: 4%;
+}
+
+#youtubeListInputPopup {
+    margin-top: 1vh;
+    padding: 5%;
+    padding-top: 0px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    display: none;
+}
+
+#youtubeListInputPopup p {
+    padding: 1%;
+}
+
+#youtubeListInputPopup input {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+}
