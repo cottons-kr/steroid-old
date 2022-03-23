@@ -17,4 +17,4 @@ function playMusic(path: string) {
     }
 }
 
-export default playMusic
+export { playMusic }

@@ -1,4 +1,6 @@
-import playMusic from "./playMusic"
+import "module-alias/register"
+// @ts-ignore
+import { playMusic } from "./script/playMusic"
 
 const playlist = document.querySelector<HTMLInputElement>("#playlist")
 const selectedListText = document.querySelector<HTMLElement>("#selectedList")
@@ -77,5 +79,4 @@ window.onload = () => {
     clearList()
     loadList()
 }
-
-export default addList
+export { addList }

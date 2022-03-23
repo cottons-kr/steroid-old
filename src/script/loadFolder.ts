@@ -1,4 +1,5 @@
-import addList from "./loadList"
+// @ts-ignore
+import { addList } from "./script/loadList"
 import { parse } from "path"
 
 type jsObject = {

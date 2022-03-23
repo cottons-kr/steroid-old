@@ -6,8 +6,12 @@
     "sourceMap": true,
     "outDir": "build",
     "baseUrl": ".",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
     "paths": {
-      "*": ["node_modules/*"]
+      "*": ["node_modules/*"],
+      "@src/*": ["src/"]
     }
   },
   "include": [
