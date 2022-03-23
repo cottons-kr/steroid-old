@@ -1,3 +1,4 @@
+import addList from "./loadList"
 import { parse } from "path"
 
 type jsObject = {
@@ -12,7 +13,7 @@ folderInput.addEventListener("change", (e: Event) => {
     if (files.length <= 0) { alert("빈 폴더입니다"); return 0 }
     const dirName = files[0].webkitRelativePath.split("/")[0]
     new Promise((resolve, _reject) => {
-        let playlist: object = {}
+        let playlist: jsObject = {}
         for (let i=0; i<files.length; i++) {
             codecs.forEach(codec => {
                 if (files[i].name.includes(codec)) {
@@ -23,10 +24,6 @@ folderInput.addEventListener("change", (e: Event) => {
         }
         resolve(playlist)
     }).then((list: any) => {
-        if (localStorage["playlist"] == undefined) {localStorage["playlist"] = "{}"}
-        let savedList: jsObject = JSON.parse(localStorage["playlist"])
-        savedList[dirName] = list
-        localStorage["playlist"] = JSON.stringify(savedList)
-        loadList()
+        addList(list, dirName)
     })
 })

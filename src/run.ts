@@ -3,7 +3,6 @@ app.on("ready", () => {
     let window = new BrowserWindow({
         fullscreen: true,
         frame: false,
-        alwaysOnTop: true,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,

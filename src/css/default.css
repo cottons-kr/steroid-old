@@ -53,6 +53,10 @@ body {
     flex-direction: row;
 }
 
+#youtubePlayer {
+    display: none;
+}
+
 ::-webkit-scrollbar {
     display: none;
 }

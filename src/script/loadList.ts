@@ -1,3 +1,5 @@
+import playMusic from "./playMusic"
+
 const playlist = document.querySelector<HTMLInputElement>("#playlist")
 const selectedListText = document.querySelector<HTMLElement>("#selectedList")
 let selectedList: string | null
@@ -8,6 +10,14 @@ type jsObject = {
 
 function clearList() {
     while (playlist.hasChildNodes()) {playlist.removeChild(playlist.firstChild)}
+}
+
+function addList(list: jsObject, name: string) {
+    if (localStorage["playlist"] == undefined) {localStorage["playlist"] = "{}"}
+    let savedList: jsObject = JSON.parse(localStorage["playlist"])
+    savedList[name] = list
+    localStorage["playlist"] = JSON.stringify(savedList)
+    if (selectedList == null) { loadList() }
 }
 
 function mkParentDir() {
@@ -67,3 +77,5 @@ window.onload = () => {
     clearList()
     loadList()
 }
+
+export default addList

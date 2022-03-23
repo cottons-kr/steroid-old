@@ -2,8 +2,6 @@
     width: 97%;
     height: 29vh;
     padding: 1.5%;
-    display: flex;
-    flex-direction: column;
     overflow-y: auto;
 }
 
@@ -14,6 +12,9 @@
     background-color: rgba(0, 0, 0, 0.1);
     margin-bottom: 0.5vh;
     line-height: 3vh;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 #playlist div:not(#parentDir) {

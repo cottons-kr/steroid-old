@@ -1,3 +1,4 @@
+import addList from "./loadList"
 import * as puppeteer from "puppeteer"
 
 type jsObject = {
@@ -51,15 +52,22 @@ async function getYoutubeList(url: string="https://www.youtube.com/playlist?list
         }
         return list
     })
-    return videos
+    const name = await page.$eval("#app > div.page-container > ytm-browse > ytm-playlist-header-renderer > div.playlist-header > div > div:nth-child(1) > h2",
+    element => { return element.innerHTML })
+    return [videos, name]
 }
 
 youtubeLinkInput.addEventListener("change", async () => {
     const link = youtubeLinkInput.value
     youtubeLinkInput.value = ""
     let videos: jsObject = {}
+    let name: any
     await getYoutubeList(link)
-    .then(res => {videos = JSON.parse(JSON.stringify(res))})
-    .catch(err => {alert(err)})
-    console.log(videos)
+    .then(res => {
+        videos = JSON.parse(JSON.stringify(res[0]))
+        name = res[1]
+    })
+    .catch(err => { alert(err) })
+    addList(videos, name)
 })
+
