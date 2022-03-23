@@ -1,5 +1,9 @@
 import { parse } from "path"
 
+type jsObject = {
+    [index: string]: any
+}
+
 const folderInput = document.querySelector<HTMLInputElement>("#uploadFolerInput")
 const codecs = [".wav", ".mp3", ".mp4", ".ogg", ".flac"]
 
@@ -20,7 +24,7 @@ folderInput.addEventListener("change", (e: Event) => {
         resolve(playlist)
     }).then((list: any) => {
         if (localStorage["playlist"] == undefined) {localStorage["playlist"] = "{}"}
-        let savedList: object = JSON.parse(localStorage["playlist"])
+        let savedList: jsObject = JSON.parse(localStorage["playlist"])
         savedList[dirName] = list
         localStorage["playlist"] = JSON.stringify(savedList)
         loadList()

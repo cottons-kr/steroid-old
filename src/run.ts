@@ -6,11 +6,14 @@ app.on("ready", () => {
         alwaysOnTop: true,
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false
+            contextIsolation: false,
+            webSecurity: false
         }
     })
     window.setMenuBarVisibility(false)
     window.setAspectRatio(16/9)
+    require('@electron/remote/main').initialize()
+    require("@electron/remote/main").enable(window.webContents)
     
     window.loadFile("index.html")
     window.on("enter-full-screen", () => {
