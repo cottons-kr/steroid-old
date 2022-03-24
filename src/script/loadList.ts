@@ -38,7 +38,7 @@ function mkContent(name: string, path: string) {
     div.setAttribute("id", "content")
     div.innerText = name
 
-    div.addEventListener("click", () => { window.playMusic(path) })
+    div.addEventListener("click", async () => { await window.playMusic(path) })
     return div
 }
 
