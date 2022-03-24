@@ -1,7 +1,7 @@
 {
   "name": "steroid",
   "version": "0.0.1",
-  "description": "very futuristic",
+  "description": "사용자의 손안에 달렸다",
   "main": "./build/run.js",
   "scripts": {
     "compile": "tsc && copyfiles -f index.html build",

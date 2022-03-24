@@ -33,4 +33,16 @@ async function playMusic(path: string) {
     }
 }
 
+async function stopMusic():Promise<void> {
+    if (currentMusic == null || player == null) { return }
+
+    if (currentMusic != null) {
+        if (!currentMusic.paused) { currentMusic.pause() }
+        else { currentMusic.play() }
+    } else {
+        if (await player.getPlayerState() == 1) { await player.pauseVideo() }
+        else if (await player.getPlayerState() == 2) { await player.playVideo() }
+    }
+}
+
 window.playMusic = playMusic
