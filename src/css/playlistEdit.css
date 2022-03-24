@@ -18,7 +18,7 @@
     height: 100%;
 }
 
-#uploadFolder, #youtubeList {
+#uploadFolder, #youtubeList, #deleteList {
     width: auto;
     height: calc(100% - 1.4vh);
     padding: 0.7vh;

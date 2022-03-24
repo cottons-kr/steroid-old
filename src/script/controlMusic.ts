@@ -4,6 +4,7 @@ import { YouTubePlayer } from "youtube-player/dist/types"
 let currentMusic: HTMLAudioElement | null = null
 let player: YouTubePlayer | null
 let status: number = 2
+let timeout: NodeJS.Timeout | any = null
 
 const backwardBtn = document.querySelector<HTMLElement>("#backwardBtn")
 const playStopBtn = document.querySelector<HTMLElement>("#playStopBtn")
@@ -33,7 +34,7 @@ async function playMusic(path: string) {
         }
         currentMusic = new Audio(path)
         currentMusic.play()
-        currentMusic.addEventListener("ended", () => { currentMusic = null })
+        currentMusic.addEventListener("ended", () => { timeout = setTimeout(async () => {await changeMusic("forward")}, 1000) })
     }
     playStopBtn.querySelector("img").src = "asset/pause.svg"
     status = 1
@@ -51,27 +52,24 @@ async function stopMusic():Promise<void> {
     }
 }
 
+async function changeMusic(type: string | number) {
+    if (selectedList == null) { return }
+    if (type == "forward") { type = 1} else { type = -1 }
+    if (timeout != null) { clearInterval(timeout) }
+    const list: Array<jsObject> = JSON.parse(localStorage["playlist"])[selectedList]
+    let nextMusic: number = list.findIndex(music => music.name == currentMusicName.innerText)+type
+    if (list[nextMusic] == undefined) { nextMusic = 0; currentMusicName.innerText = list[0]["name"] }
+    else { currentMusicName.innerText = list[nextMusic]["name"] }
+    await playMusic(list[nextMusic]["path"])
+}
+
 playStopBtn.addEventListener("click", async () => {
     if (currentMusic == null && player == null) { return }
     await stopMusic()
     if (status == 1) { playStopBtn.querySelector("img").src = "asset/pause.svg" }
     else if (status == 2) { playStopBtn.querySelector("img").src = "asset/play.svg" }
 })
-forwardBtn.addEventListener("click", async () => {
-    if (selectedList == null) { return }
-    const list: Array<jsObject> = JSON.parse(localStorage["playlist"])[selectedList]
-    let nextMusic: number = list.findIndex(music => music.name == currentMusicName.innerText)+1
-    if (list[nextMusic] == undefined) { nextMusic = 0; currentMusicName.innerText = list[0]["name"] }
-    else { currentMusicName.innerText = list[nextMusic]["name"] }
-    await playMusic(list[nextMusic]["path"])
-})
-backwardBtn.addEventListener("click", async () => {
-    if (selectedList == null) { return }
-    const list: Array<jsObject> = JSON.parse(localStorage["playlist"])[selectedList]
-    let nextMusic: number = list.findIndex(music => music.name == currentMusicName.innerText)-1
-    if (list[nextMusic] == undefined) { nextMusic = list.length-1; currentMusicName.innerText = list[list.length-1]["name"] }
-    else { currentMusicName.innerText = list[nextMusic]["name"] }
-    await playMusic(list[nextMusic]["path"])
-})
+forwardBtn.addEventListener("click", async () => { await changeMusic("forward") })
+backwardBtn.addEventListener("click", async () => { await changeMusic("backward") })
 
 window.playMusic = playMusic
