@@ -5,12 +5,15 @@ let currentMusic: HTMLAudioElement | null = null
 let player: YouTubePlayer | null
 let status: number = 2
 let timeout: NodeJS.Timeout | any = null
+let progressInterval: NodeJS.Timeout | any = null
 
 const backwardBtn = document.querySelector<HTMLElement>("#backwardBtn")
 const playStopBtn = document.querySelector<HTMLElement>("#playStopBtn")
 const forwardBtn = document.querySelector<HTMLElement>("#forwardBtn")
+const progressBar = document.querySelector<HTMLProgressElement>("#progressBar")
 
 async function playMusic(path: string) {
+    progressBar.value = 0
     if (path.startsWith("https://") || path.startsWith("http://")) {
         if (currentMusic != null) { currentMusic.pause(); currentMusic = null }
         const key = new URL(path).searchParams.get("v")
@@ -34,7 +37,13 @@ async function playMusic(path: string) {
         }
         currentMusic = new Audio(path)
         currentMusic.play()
-        currentMusic.addEventListener("ended", () => { timeout = setTimeout(async () => {await changeMusic("forward")}, 1000) })
+        currentMusic.addEventListener("ended", () => {
+            timeout = setTimeout(async () => {await changeMusic("forward")
+        }, 1000) })
+        currentMusic.onloadedmetadata = () => {
+            const value = 100 / (currentMusic.duration * 5)
+            progressInterval = setInterval(() => { if (status == 1) {progressBar.value += value} }, 200)
+        }
     }
     playStopBtn.querySelector("img").src = "asset/pause.svg"
     status = 1
@@ -44,18 +53,34 @@ async function stopMusic():Promise<void> {
     if (currentMusic == null && player == null) { return }
 
     if (currentMusic != null) {
-        if (!currentMusic.paused) { currentMusic.pause(); status = 2 }
-        else { currentMusic.play(); status = 1 }
+        if (!currentMusic.paused) {
+            currentMusic.pause(); status = 2
+        }
+        else {
+            currentMusic.play(); status = 1
+            currentMusic.onloadedmetadata = () => {
+                const value = 100 / (currentMusic.duration * 5)
+                progressInterval = setInterval(() => { if (status == 1) {progressBar.value += value} }, 200)
+            }
+        }
     } else {
-        if (await player.getPlayerState() == 1) { await player.pauseVideo(); status = 2 }
-        else if (await player.getPlayerState() == 2) { await player.playVideo(); status = 1 }
+        if (await player.getPlayerState() == 1) {
+            await player.pauseVideo(); status = 2
+        }
+        else if (await player.getPlayerState() == 2) {
+            await player.playVideo(); status = 1
+            currentMusic.onloadedmetadata = () => {
+                const value = 100 / (currentMusic.duration * 5)
+                progressInterval = setInterval(() => { if (status == 1) {progressBar.value += value} }, 200)
+            }
+        }
     }
 }
 
 async function changeMusic(type: string | number) {
     if (selectedList == null) { return }
     if (type == "forward") { type = 1} else { type = -1 }
-    if (timeout != null) { clearInterval(timeout) }
+    if (timeout != null) { clearInterval(timeout);  clearInterval(progressInterval) }
     const list: Array<jsObject> = JSON.parse(localStorage["playlist"])[selectedList]
     let nextMusic: number = list.findIndex(music => music.name == currentMusicName.innerText)+type
     if (list[nextMusic] == undefined) { nextMusic = 0; currentMusicName.innerText = list[0]["name"] }
