@@ -1,7 +1,6 @@
 #controlRoot {
     position: absolute;
     width: 100vw;
-    height: 10vh;
     left: 0;
     bottom: 15vh;
     text-align: center;
@@ -29,4 +28,43 @@
     display: inline-block;
     width: 30vw;
     height: 7vh;
+    text-align: center;
+}
+
+#controlDiv * {
+    width: fit-content;
+    height: 100%;
+}
+
+#controlDiv *:not(#playStopBtn) {
+    height: calc(100% - 1.4vh);
+    margin: 0.7vh;
+}
+
+#controlDiv * img {
+    width: auto;
+    height: 100%;
+    filter: invert(100%);
+}
+
+#forwardBtn {
+    float: right;
+}
+
+#playStopBtn {
+    display: inline-block;
+}
+
+#backwardBtn {
+    float: left;
+}
+
+#currentMusicName {
+    width: 100%;
+    margin: 0.3vh 0 1.3vh 0;
+    font-size: larger;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

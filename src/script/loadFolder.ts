@@ -8,12 +8,11 @@ folderInput.addEventListener("change", (e: Event) => {
     if (files.length <= 0) { alert("빈 폴더입니다"); return 0 }
     const dirName = files[0].webkitRelativePath.split("/")[0]
     new Promise((resolve, _reject) => {
-        let playlist: jsObject = {}
+        let playlist: Array<jsObject> = []
         for (let i=0; i<files.length; i++) {
             codecs.forEach(codec => {
                 if (files[i].name.includes(codec)) {
-                    // @ts-ignore
-                    playlist[parse(files[i].name).name] = files[i].path
+                    playlist.push({"name": parse(files[i].name).name, "path": files[i].path})
                 }
             })
         }

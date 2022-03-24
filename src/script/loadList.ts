@@ -1,5 +1,6 @@
 const playlist = document.querySelector<HTMLInputElement>("#playlist")
 const selectedListText = document.querySelector<HTMLElement>("#selectedList")
+const currentMusicName = document.querySelector<HTMLElement>("#currentMusicName")
 let selectedList: string | null
 
 type jsObject = {
@@ -38,7 +39,10 @@ function mkContent(name: string, path: string) {
     div.setAttribute("id", "content")
     div.innerText = name
 
-    div.addEventListener("click", async () => { await window.playMusic(path) })
+    div.addEventListener("click", async () => {
+        currentMusicName.innerText = name
+        await window.playMusic(path)
+    })
     return div
 }
 
@@ -52,9 +56,9 @@ function mkListContent(name: string) {
         selectedList = name
         selectedListText.innerText = name
         playlist.appendChild(mkParentDir())
-        const list: jsObject = JSON.parse(localStorage["playlist"])[name]
-        for (let song of Object.keys(list)) {
-            playlist.appendChild(mkContent(song, list[song]))
+        const list: Array<jsObject> = JSON.parse(localStorage["playlist"])[selectedList]
+        for (let song of list) {
+            playlist.appendChild(mkContent(song["name"], song["path"]))
         }
     })
     return div

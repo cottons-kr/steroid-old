@@ -3,6 +3,11 @@ import { YouTubePlayer } from "youtube-player/dist/types"
 
 let currentMusic: HTMLAudioElement | null = null
 let player: YouTubePlayer | null
+let status: number = 2 //짝수면 일시정지, 홀수면 재생
+
+const backwardBtn = document.querySelector<HTMLElement>("#backwardBtn")
+const playStopBtn = document.querySelector<HTMLElement>("#playStopBtn")
+const forwardBtn = document.querySelector<HTMLElement>("#forwardBtn")
 
 async function playMusic(path: string) {
     if (path.startsWith("https://") || path.startsWith("http://")) {
@@ -13,7 +18,6 @@ async function playMusic(path: string) {
             else { await player.stopVideo(); await player.destroy(); player = null }
         }
         player = YoutubePlayer("youtubePlayer")
-        console.log(path)
         await player.loadVideoById(key)
         await player.playVideo()
         player.on("stateChange", (e) => {
@@ -31,18 +35,43 @@ async function playMusic(path: string) {
         currentMusic.play()
         currentMusic.addEventListener("ended", () => { currentMusic = null })
     }
+    playStopBtn.querySelector("img").src = "asset/pause.svg"
+    status = 1
 }
 
 async function stopMusic():Promise<void> {
-    if (currentMusic == null || player == null) { return }
+    if (currentMusic == null && player == null) { return }
 
     if (currentMusic != null) {
-        if (!currentMusic.paused) { currentMusic.pause() }
-        else { currentMusic.play() }
+        if (!currentMusic.paused) { currentMusic.pause(); status = 2 }
+        else { currentMusic.play(); status = 1 }
     } else {
-        if (await player.getPlayerState() == 1) { await player.pauseVideo() }
-        else if (await player.getPlayerState() == 2) { await player.playVideo() }
+        if (await player.getPlayerState() == 1) { await player.pauseVideo(); status = 2 }
+        else if (await player.getPlayerState() == 2) { await player.playVideo(); status = 1 }
     }
 }
+
+playStopBtn.addEventListener("click", async () => {
+    if (currentMusic == null && player == null) { return }
+    await stopMusic()
+    if (status == 1) { playStopBtn.querySelector("img").src = "asset/pause.svg" }
+    else if (status == 2) { playStopBtn.querySelector("img").src = "asset/play.svg" }
+})
+forwardBtn.addEventListener("click", async () => {
+    if (selectedList == null) { return }
+    const list: Array<jsObject> = JSON.parse(localStorage["playlist"])[selectedList]
+    let nextMusic: number = list.findIndex(music => music.name == currentMusicName.innerText)+1
+    if (list[nextMusic] == undefined) { nextMusic = 0; currentMusicName.innerText = list[0]["name"] }
+    else { currentMusicName.innerText = list[nextMusic]["name"] }
+    await playMusic(list[nextMusic]["path"])
+})
+backwardBtn.addEventListener("click", async () => {
+    if (selectedList == null) { return }
+    const list: Array<jsObject> = JSON.parse(localStorage["playlist"])[selectedList]
+    let nextMusic: number = list.findIndex(music => music.name == currentMusicName.innerText)-1
+    if (list[nextMusic] == undefined) { nextMusic = list.length-1; currentMusicName.innerText = list[list.length-1]["name"] }
+    else { currentMusicName.innerText = list[nextMusic]["name"] }
+    await playMusic(list[nextMusic]["path"])
+})
 
 window.playMusic = playMusic
