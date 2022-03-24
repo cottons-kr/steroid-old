@@ -1,5 +1,4 @@
-build/script/*.js
-build/script/*.js.map
+build/
 dist/
 node_modules/
 *.json_backup
