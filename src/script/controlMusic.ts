@@ -3,7 +3,7 @@ import { YouTubePlayer } from "youtube-player/dist/types"
 
 let currentMusic: HTMLAudioElement | null = null
 let player: YouTubePlayer | null
-let status: number = 2 //짝수면 일시정지, 홀수면 재생
+let status: number = 2
 
 const backwardBtn = document.querySelector<HTMLElement>("#backwardBtn")
 const playStopBtn = document.querySelector<HTMLElement>("#playStopBtn")

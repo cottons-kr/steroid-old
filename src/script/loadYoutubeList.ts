@@ -1,7 +1,20 @@
-import * as puppeteer from "puppeteer"
+import puppeteer from "puppeteer"
 
 const youtubeList = document.querySelector<HTMLElement>("#youtubeList")
 const youtubeLinkInput = youtubeListInputPopup.querySelector<HTMLInputElement>("input")
+
+const devices = {
+    name: 'iPhone 6',
+    userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
+    viewport: {
+        width: 375,
+        height: 667,
+        deviceScaleFactor: 2,
+        isMobile: true,
+        hasTouch: true,
+        isLandscape: false,
+    },
+}
 
 let num = 0
 youtubeList.addEventListener("click", () => {
@@ -28,8 +41,8 @@ async function scrollToBtm(page: puppeteer.Page) {
     })
 }
 
-async function getYoutubeList(url: string="https://www.youtube.com/playlist?list=PLC7IbGRZ5AEjMZhKR1p6b_CpOqHWYI2Sj") {
-    const mobile = puppeteer.devices["iPhone 6"]
+async function getYoutubeList(url: string) {
+    const mobile = devices
     if (url.includes("app=desktop")) { url = url.replace("app=desktop", "") }
     const browser = await puppeteer.launch({headless: true})
     const page = await browser.newPage()
@@ -39,11 +52,11 @@ async function getYoutubeList(url: string="https://www.youtube.com/playlist?list
 
     const videos = await page.$eval("#app > div.page-container > ytm-browse > ytm-single-column-browse-results-renderer > div > div > ytm-section-list-renderer > lazy-list > ytm-item-section-renderer > lazy-list > ytm-playlist-video-list-renderer",
     element => {
-        let list: jsObject = {}
+        let list: Array<jsObject> = []
         for (let video of element.childNodes) {
             // @ts-ignore
             const name: string = video.querySelector("h4").innerText; const link = video.querySelector("a").href
-            list[name] = link
+            list.push({"name": name, "path": link})
         }
         return list
     })
