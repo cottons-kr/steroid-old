@@ -1,20 +1,16 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "ES2017",
-    "noImplicitAny": true,
-    "sourceMap": true,
-    "outDir": "build",
-    "baseUrl": ".",
-    "allowJs": true,
-    "skipLibCheck": true,
-    "moduleResolution": "node",
-    "paths": {
-      "*": ["node_modules/*"],
-      "@src/*": ["src/"]
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "ES2017",
+      "noImplicitAny": true,
+      "sourceMap": true,
+      "outDir": "build",
+      "baseUrl": ".",
+      "allowJs": true,
+      "skipLibCheck": true,
+      "moduleResolution": "node",
+      "paths": {
+        "*": ["node_modules/*"]
+      }
     }
-  },
-  "include": [
-    "src/**/*"
-  ]
-}
+  }

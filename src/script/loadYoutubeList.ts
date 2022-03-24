@@ -1,10 +1,4 @@
-// @ts-ignore
-import { addList } from "./script/loadList"
 import * as puppeteer from "puppeteer"
-
-type jsObject = {
-    [index: string]: any
-}
 
 const youtubeList = document.querySelector<HTMLElement>("#youtubeList")
 const youtubeListInputPopup = document.querySelector<HTMLElement>("#youtubeListInputPopup")
@@ -71,4 +65,3 @@ youtubeLinkInput.addEventListener("change", async () => {
     .catch(err => { alert(err) })
     addList(videos, name)
 })
-

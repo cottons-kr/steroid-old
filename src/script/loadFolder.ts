@@ -1,10 +1,4 @@
-// @ts-ignore
-import { addList } from "./script/loadList"
 import { parse } from "path"
-
-type jsObject = {
-    [index: string]: any
-}
 
 const folderInput = document.querySelector<HTMLInputElement>("#uploadFolerInput")
 const codecs = [".wav", ".mp3", ".mp4", ".ogg", ".flac"]

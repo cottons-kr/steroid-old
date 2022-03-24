@@ -1,7 +1,3 @@
-import "module-alias/register"
-// @ts-ignore
-import { playMusic } from "./script/playMusic"
-
 const playlist = document.querySelector<HTMLInputElement>("#playlist")
 const selectedListText = document.querySelector<HTMLElement>("#selectedList")
 let selectedList: string | null
@@ -42,7 +38,7 @@ function mkContent(name: string, path: string) {
     div.setAttribute("id", "content")
     div.innerText = name
 
-    div.addEventListener("click", () => { playMusic(path) })
+    div.addEventListener("click", () => { window.playMusic(path) })
     return div
 }
 
@@ -79,4 +75,5 @@ window.onload = () => {
     clearList()
     loadList()
 }
-export { addList }
+
+window.addList = addList

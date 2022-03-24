@@ -17,4 +17,4 @@ function playMusic(path: string) {
     }
 }
 
-export { playMusic }
+window.playMusic = playMusic
