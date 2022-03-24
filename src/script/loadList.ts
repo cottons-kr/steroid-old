@@ -67,8 +67,11 @@ function loadList() {
         return 0
     }
     clearList()
-    let list = JSON.parse(localStorage["playlist"])
-    for (let name of Object.keys(list)) { playlist.appendChild(mkListContent(name)) }
+    let list: jsObject = JSON.parse(localStorage["playlist"])
+    for (let name of Object.keys(list)) { 
+        if (list[name].length <= 0) { continue }
+        playlist.appendChild(mkListContent(name))
+    }
 }
 
 window.onload = () => {

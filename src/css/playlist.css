@@ -1,7 +1,7 @@
 #playlist {
     width: 97%;
-    height: 29vh;
-    padding: 1.5%;
+    height: calc(100% - 13vh);
+    padding: 1vh 0.2vw 1vh 0.2vw;
     overflow-y: auto;
 }
 

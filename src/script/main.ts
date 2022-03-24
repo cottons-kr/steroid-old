@@ -1,3 +1,4 @@
+import * as path  from "path";
 export {}
 
 declare global {
@@ -6,3 +7,4 @@ declare global {
 }
 
 // jsObject Type is in loadList.ts
+

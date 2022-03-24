@@ -14,6 +14,7 @@ function playMusic(path: string) {
         }
         currentMusic = new Audio(path)
         currentMusic.play()
+        currentMusic.addEventListener("ended", () => { currentMusic = null })
     }
 }
 

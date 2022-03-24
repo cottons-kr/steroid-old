@@ -19,17 +19,18 @@
 }
 
 #uploadFolder, #youtubeList {
-    width: fit-content;
-    height: 63%;
-    padding: 4%;
+    width: auto;
+    height: calc(100% - 1.4vh);
+    padding: 0.7vh;
+    float: left;
 }
 
 #youtubeListInputPopup {
-    margin-top: 1vh;
-    padding: 5%;
-    padding-top: 0px;
+    width: 15vw;
+    padding-bottom: 1%;
     border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
     text-align: center;
     display: none;
 }
@@ -39,7 +40,8 @@
 }
 
 #youtubeListInputPopup input {
-    width: 100%;
+    width: 85%;
+    padding: 1.5%;
     outline: none;
     border: none;
     border-radius: 10px;

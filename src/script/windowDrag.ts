@@ -1,5 +1,7 @@
-const dragBar: HTMLElement | any = document.querySelector("#dragBar")
+const playlistPopupDragBar: HTMLElement | any = document.querySelector("#playlistRoot #dragBar")
+const youtubeListInputPopupDragBar = document.querySelector<HTMLElement>("#youtubeListInputPopup")
 const playlistPopup = document.querySelector<HTMLElement>("#playlistRoot")
+const youtubeListInputPopup = document.querySelector<HTMLElement>("#youtubeListInputPopup")
 const root = document.querySelector(".root")
 
 function windowDrag(element: HTMLElement, e: MouseEvent) {
@@ -28,4 +30,5 @@ function windowDrag(element: HTMLElement, e: MouseEvent) {
     }
 }
 
-dragBar.onmousedown = (e: MouseEvent) => { windowDrag(playlistPopup, e) }
+playlistPopupDragBar.onmousedown = (e: MouseEvent) => { windowDrag(playlistPopup, e) }
+youtubeListInputPopupDragBar.onmousedown = (e: MouseEvent) => { windowDrag(youtubeListInputPopup, e) }

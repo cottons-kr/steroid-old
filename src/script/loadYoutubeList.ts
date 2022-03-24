@@ -1,7 +1,6 @@
 import * as puppeteer from "puppeteer"
 
 const youtubeList = document.querySelector<HTMLElement>("#youtubeList")
-const youtubeListInputPopup = document.querySelector<HTMLElement>("#youtubeListInputPopup")
 const youtubeLinkInput = youtubeListInputPopup.querySelector<HTMLInputElement>("input")
 
 let num = 0
@@ -31,6 +30,7 @@ async function scrollToBtm(page: puppeteer.Page) {
 
 async function getYoutubeList(url: string="https://www.youtube.com/playlist?list=PLC7IbGRZ5AEjMZhKR1p6b_CpOqHWYI2Sj") {
     const mobile = puppeteer.devices["iPhone 6"]
+    if (url.includes("app=desktop")) { url = url.replace("app=desktop", "") }
     const browser = await puppeteer.launch({headless: true})
     const page = await browser.newPage()
     await page.emulate(mobile)
@@ -49,6 +49,7 @@ async function getYoutubeList(url: string="https://www.youtube.com/playlist?list
     })
     const name = await page.$eval("#app > div.page-container > ytm-browse > ytm-playlist-header-renderer > div.playlist-header > div > div:nth-child(1) > h2",
     element => { return element.innerHTML })
+    await browser.close()
     return [videos, name]
 }
 
@@ -62,6 +63,6 @@ youtubeLinkInput.addEventListener("change", async () => {
         videos = JSON.parse(JSON.stringify(res[0]))
         name = res[1]
     })
-    .catch(err => { alert(err) })
+    .catch(err => { alert(err); return 0 })
     addList(videos, name)
 })
