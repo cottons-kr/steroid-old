@@ -103,9 +103,4 @@ deleteListBtn.addEventListener("click", () => {
     }
 })
 
-window.onload = () => {
-    clearList()
-    loadList()
-}
-
 window.addList = addList

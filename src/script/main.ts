@@ -6,5 +6,17 @@ declare global {
     interface Window { addList: any; }
 }
 
+function resizeFont():void {
+    document.querySelector("html").style.fontSize = `${16 * (window.innerHeight/1080)}px`
+}
+
+window.addEventListener("resize", resizeFont)
+
+window.onload = () => {
+    clearList()
+    loadList()
+    resizeFont()
+}
+
 // jsObject Type is in loadList.ts
 
