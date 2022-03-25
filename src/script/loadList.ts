@@ -23,6 +23,9 @@ function mkParentDir() {
 
     div.addEventListener("click", () => {
         deleteListBtn.style.display = "block"
+        makeListBtn.style.display = "block"
+        uploadFolder.style.display = "block"
+        youtubeListBtn.style.display = "block"
         selectedList = null
         selectedListText.innerText = "플레이리스트"
         loadList()
@@ -51,6 +54,9 @@ function mkListContent(name: string) {
         if (deleteMode) { deleteList(name); return }
         clearList()
         deleteListBtn.style.display = "none"
+        makeListBtn.style.display = "none"
+        uploadFolder.style.display = "none"
+        youtubeListBtn.style.display = "none"
         deleteMode = false
         selectedList = name
         selectedListText.innerText = name
@@ -77,6 +83,15 @@ function loadList() {
     }
 }
 
+async function makeList() { 
+    /* 팝업으로 플레이리스트 이름 받고
+    파일 추가, 유튜브 영상 추가 버튼 보여주기
+    파일 추가는 잘 만들고
+    유튜브 영상은 링크 받으면 제목 크롤링해서 등록 
+    이 모든 과정은 editList 함수를 사용바람
+    매개변수 : listName: string, content: jsObject, type: string */ 
+}
+
 function deleteList(name: string):void {
     let list: jsObject = JSON.parse(localStorage["playlist"])
     delete list[name]
@@ -98,6 +113,9 @@ async function loadSaveData() {
     if (typeof JSON.parse(localStorage["playlist"])[selectedList] !== "object") { return }
     clearList()
     deleteListBtn.style.display = "none"
+    makeListBtn.style.display = "none"
+    uploadFolder.style.display = "none"
+    youtubeListBtn.style.display = "none"
     deleteMode = false
     playlist.appendChild(mkParentDir())
     const list: Array<jsObject> = JSON.parse(localStorage["playlist"])[selectedList]
@@ -117,6 +135,7 @@ deleteListBtn.addEventListener("click", () => {
         selectedListText.innerText = "클릭해서 삭제"
     }
 })
+makeListBtn.addEventListener("click", async () => { await makeList() })
 
 window.addList = addList
 function reload():void { location.reload() }
