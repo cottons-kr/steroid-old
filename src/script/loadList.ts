@@ -1,10 +1,3 @@
-const playlist = document.querySelector<HTMLInputElement>("#playlist")
-const selectedListText = document.querySelector<HTMLElement>("#selectedList")
-const currentMusicName = document.querySelector<HTMLElement>("#currentMusicName")
-const deleteListBtn = document.querySelector<HTMLElement>("#deleteList")
-let selectedList: string | null
-let deleteMode: boolean = false
-
 type jsObject = {
     [index: string]: any
 }
@@ -89,6 +82,28 @@ function deleteList(name: string):void {
     delete list[name]
     localStorage["playlist"] = JSON.stringify(list)
     loadList()
+}
+
+async function loadSaveData() {
+    if (localStorage["saveData"] == undefined) { return }
+
+    const saveData: jsObject = JSON.parse(localStorage["saveData"])
+    volumeControl.value = parseInt(saveData["volume"])
+    if (saveData["selectedList"] !== undefined) { selectedList = saveData["selectedList"] }
+
+    if (saveData["currentMusicPath"] == null) { return }
+    currentMusicName.innerText = saveData["currentMusicName"]
+    
+    await window.playMusic(saveData["currentMusicPath"])
+    if (typeof JSON.parse(localStorage["playlist"])[selectedList] !== "object") { return }
+    clearList()
+    deleteListBtn.style.display = "none"
+    deleteMode = false
+    playlist.appendChild(mkParentDir())
+    const list: Array<jsObject> = JSON.parse(localStorage["playlist"])[selectedList]
+    for (let song of list) {
+        playlist.appendChild(mkContent(song["name"], song["path"]))
+   }
 }
 
 deleteListBtn.addEventListener("click", () => {

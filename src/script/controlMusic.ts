@@ -1,21 +1,8 @@
 import YoutubePlayer from "youtube-player"
 import { YouTubePlayer } from "youtube-player/dist/types"
 
-let currentMusic: HTMLAudioElement | null = null
 let player: YouTubePlayer | null = null
 let status: number = 2
-let beforeVolume: number = 100
-let valuePerSec: number = 0
-let timeout: NodeJS.Timeout | any = null
-let progressInterval: NodeJS.Timeout | any = null
-
-const backwardBtn = document.querySelector<HTMLElement>("#backwardBtn")
-const playStopBtn = document.querySelector<HTMLElement>("#playStopBtn")
-const forwardBtn = document.querySelector<HTMLElement>("#forwardBtn")
-const progressBar = document.querySelector<HTMLProgressElement>("#progressBar")
-const progressTime = document.querySelector<HTMLElement>("#progressTime")
-const selectedVolume = document.querySelector<HTMLElement>("#selectedVolume")
-const volumeControl = document.querySelector<HTMLProgressElement>("#volumeControl")
 
 async function playMusic(path: string) {
     if (path.startsWith("https://") || path.startsWith("http://")) {
@@ -104,6 +91,21 @@ async function changeMusic(type: string | number) {
     await playMusic(list[nextMusic]["path"])
 }
 
+async function saveCurrentData() {
+    let saveData: jsObject = {}
+    saveData["selectedList"] = selectedList
+    saveData["volume"] = volumeControl.value
+
+    if (currentMusic !== null) {
+        saveData["currentMusicPath"] = currentMusic.src
+        saveData["currentMusicName"] = currentMusicName.innerText
+    } else if (player !== null) {
+        saveData["currentMusicPath"] = await player.getVideoUrl()
+        saveData["currentMusicName"] = currentMusicName.innerText
+    } else { saveData["currentMusicPath"] = null; saveData["currentMusicName"] = null }
+    localStorage["saveData"] = JSON.stringify(saveData)
+}
+
 progressBar.addEventListener("mousedown", async (e: MouseEvent) => {
     if (currentMusic == null && player == null) { return 0 }
     if (currentMusic !== null) {
@@ -167,3 +169,5 @@ forwardBtn.addEventListener("click", async () => { await changeMusic("forward") 
 backwardBtn.addEventListener("click", async () => { await changeMusic("backward") })
 
 window.playMusic = playMusic
+window.addEventListener("mousemove", async () => { await saveCurrentData() })
+window.addEventListener("mousedown", async () => { await saveCurrentData() })

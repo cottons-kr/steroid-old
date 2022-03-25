@@ -59,7 +59,7 @@
 
 #currentMusicName {
     width: 100%;
-    margin: 0.3vh 0 1.3vh 0;
+    margin: 0.3vh 0 3vh 0;
     font-size: larger;
     text-align: center;
     overflow: hidden;
@@ -77,7 +77,7 @@
     height: 2vh;
     line-height: 2vh;
     border-radius: 5px;
-    bottom: 33.5vh
+    bottom: 35.5vh
 }
 
 #volumeCotrolRoot {
@@ -113,7 +113,7 @@
     height: 2vh;
     line-height: 2vh;
     border-radius: 5px;
-    bottom: 28.5vh
+    bottom: 30vh
 }
 
 *::-webkit-progress-bar {

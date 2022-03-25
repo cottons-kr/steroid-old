@@ -1,9 +1,3 @@
-const playlistPopupDragBar: HTMLElement | any = document.querySelector("#playlistRoot #dragBar")
-const youtubeListInputPopupDragBar = document.querySelector<HTMLElement>("#youtubeListInputPopup")
-const playlistPopup = document.querySelector<HTMLElement>("#playlistRoot")
-const youtubeListInputPopup = document.querySelector<HTMLElement>("#youtubeListInputPopup")
-const root = document.querySelector(".root")
-
 function windowDrag(element: HTMLElement, e: MouseEvent) {
     let shiftX: number = e.clientX - element.getBoundingClientRect().left
     let shiftY: number = e.clientY - element.getBoundingClientRect().top

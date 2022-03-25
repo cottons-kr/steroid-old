@@ -16,6 +16,7 @@ window.onload = () => {
     clearList()
     loadList()
     resizeFont()
+    loadSaveData()
 }
 
 // jsObject Type is in loadList.ts
