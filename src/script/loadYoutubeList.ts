@@ -44,6 +44,7 @@ async function scrollToBtm(page: puppeteer.Page) {
 async function getYoutubeList(url: string) {
     const mobile = devices
     if (url.includes("app=desktop")) { url = url.replace("app=desktop", "") }
+    if (!url.includes("/playlist?list=") && url.includes("/watch?v=")) { return ["video"] }
     const browser = await puppeteer.launch({headless: true})
     const page = await browser.newPage()
     await page.emulate(mobile)
@@ -72,9 +73,22 @@ youtubeLinkInput.addEventListener("change", async () => {
     let videos: jsObject = {}
     let name: any
     await getYoutubeList(link)
-    .then(res => {
-        videos = JSON.parse(JSON.stringify(res[0]))
-        name = res[1]
+    .then(async res => {
+        if (res[0] == "video") { 
+            const mobile = devices
+            const browser = await puppeteer.launch({headless: true})
+            const page = await browser.newPage()
+            await page.emulate(mobile)
+            await page.goto(link)
+            await page.waitForSelector("#app > div.page-container > ytm-watch > ytm-single-column-watch-next-results-renderer > ytm-slim-video-metadata-section-renderer > ytm-slim-video-information-renderer > button > div > div > h2")
+            const name = await page.$eval("#app > div.page-container > ytm-watch > ytm-single-column-watch-next-results-renderer > ytm-slim-video-metadata-section-renderer > ytm-slim-video-information-renderer > button > div > div > h2",
+            title => { return title.innerHTML })
+            currentMusicName.innerText = name
+            await window.playMusic(link)
+        } else {
+            videos = JSON.parse(JSON.stringify(res[0]))
+            name = res[1]
+        }
     })
     .catch(err => { alert(err); return 0 })
     addList(videos, name)
