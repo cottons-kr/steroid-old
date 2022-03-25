@@ -88,8 +88,8 @@ youtubeLinkInput.addEventListener("change", async () => {
         } else {
             videos = JSON.parse(JSON.stringify(res[0]))
             name = res[1]
+            addList(videos, name)
         }
     })
     .catch(err => { alert(err); return 0 })
-    addList(videos, name)
 })

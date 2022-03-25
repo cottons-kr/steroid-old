@@ -104,3 +104,4 @@ deleteListBtn.addEventListener("click", () => {
 })
 
 window.addList = addList
+function reload():void { location.reload() }

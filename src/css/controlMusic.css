@@ -12,21 +12,14 @@
     margin-bottom: 3vh;
     border: none;
     outline: none;
-    -webkit-appearance: none;
     border-radius: 1.5px;
     transition-duration: 0.3s;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 #progressBar:hover {
     height: 9px;
-}
-
-::-webkit-progress-bar {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
-::-webkit-progress-value {
-    background-color: rgba(0, 0, 0, 0.3);
 }
 
 #controlDiv {
@@ -79,10 +72,54 @@
     position: absolute;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blue(5px);
+    backdrop-filter: blur(5px);
     width: 3vw;
     height: 2vh;
     line-height: 2vh;
     border-radius: 5px;
-    bottom: 32vh
+    bottom: 33.5vh
+}
+
+#volumeCotrolRoot {
+    width: 100%;
+    height: 9px;
+    margin-top: 1vh;
+    display: block;
+    text-align: center;
+}
+
+#volumeControl {
+    -webkit-appearance: none;
+    appearance: none;
+    transition-duration: 0.3s;
+    width: 15vw;
+    height: 3px;
+    border-radius: 1.5px;
+    float: right;
+    margin-right: 5vw;
+}
+
+#volumeControl:hover {
+    height: 9px;
+}
+
+#selectedVolume {
+    display: none;
+    position: absolute;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    width: 3vw;
+    height: 2vh;
+    line-height: 2vh;
+    border-radius: 5px;
+    bottom: 28.5vh
+}
+
+*::-webkit-progress-bar {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+*::-webkit-progress-value {
+    background-color: rgba(0, 0, 0, 0.3);
 }

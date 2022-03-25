@@ -4,6 +4,7 @@ import { YouTubePlayer } from "youtube-player/dist/types"
 let currentMusic: HTMLAudioElement | null = null
 let player: YouTubePlayer | null = null
 let status: number = 2
+let beforeVolume: number = 100
 let valuePerSec: number = 0
 let timeout: NodeJS.Timeout | any = null
 let progressInterval: NodeJS.Timeout | any = null
@@ -13,6 +14,8 @@ const playStopBtn = document.querySelector<HTMLElement>("#playStopBtn")
 const forwardBtn = document.querySelector<HTMLElement>("#forwardBtn")
 const progressBar = document.querySelector<HTMLProgressElement>("#progressBar")
 const progressTime = document.querySelector<HTMLElement>("#progressTime")
+const selectedVolume = document.querySelector<HTMLElement>("#selectedVolume")
+const volumeControl = document.querySelector<HTMLProgressElement>("#volumeControl")
 
 async function playMusic(path: string) {
     if (path.startsWith("https://") || path.startsWith("http://")) {
@@ -25,6 +28,7 @@ async function playMusic(path: string) {
         player = YoutubePlayer("youtubePlayer")
         await player.loadVideoById(key)
         await player.playVideo()
+        await player.setVolume(volumeControl.value)
         progressBar.value = 0
         for (let i=0; i<10; i++) { clearInterval(progressInterval); progressInterval = null }
         player.on("stateChange", async (e) => {
@@ -44,6 +48,7 @@ async function playMusic(path: string) {
         }
         currentMusic = new Audio(path)
         currentMusic.play()
+        currentMusic.volume = volumeControl.value / 100
         progressBar.value = 0
         for (let i=0; i<10; i++) { clearInterval(progressInterval); progressInterval = null }
         currentMusic.addEventListener("ended", () => {
@@ -64,7 +69,7 @@ async function stopMusic():Promise<void> {
         if (!currentMusic.paused) {
             currentMusic.pause()
             status = 2
-            clearInterval(progressInterval)
+            for (let i=0; i<10; i++) { clearInterval(progressInterval); progressInterval = null }
         }
         else {
             currentMusic.play(); status = 1
@@ -74,7 +79,7 @@ async function stopMusic():Promise<void> {
         if (await player.getPlayerState() == 1) {
             await player.pauseVideo()
             status = 2
-            clearInterval(progressInterval)
+            for (let i=0; i<10; i++) { clearInterval(progressInterval); progressInterval = null }
         }
         else if (await player.getPlayerState() == 2) {
             await player.playVideo(); status = 1
@@ -86,8 +91,8 @@ async function stopMusic():Promise<void> {
 async function changeMusic(type: string | number) {
     if (selectedList == null) { return }
     if (type == "forward") { type = 1} else { type = -1 }
-    if (timeout != null) { clearInterval(timeout); timeout = null }
-    clearInterval(progressInterval)
+    if (timeout != null) { clearTimeout(timeout); timeout = null }
+    for (let i=0; i<10; i++) { clearInterval(progressInterval); progressInterval = null }
     valuePerSec = 0
     const list: Array<jsObject> = JSON.parse(localStorage["playlist"])[selectedList]
     let nextMusic: number = list.findIndex(music => music.name == currentMusicName.innerText)+type
@@ -128,12 +133,29 @@ progressBar.addEventListener("mousemove", async (e: MouseEvent) => {
         clickedValue = e.offsetX / progressBar.offsetWidth * 100
     }
     let time = Math.floor(clickedValue * value)
-    let min = Math.floor(time / 60).toString().padStart(2, "0")
-    let sec = (time % 60).toString().padStart(2, "0")
-    progressTime.innerText = `${min}:${sec}`
+    let min = Math.floor(time / 60)
+    let sec = (time % 60)
+    if (min < 0) { min = 0 }; if (sec < 0) { sec = 0 }
+    progressTime.innerText = `${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`
     progressTime.style.left = e.pageX+"px"
 })
 progressBar.addEventListener("mouseleave", () => { progressTime.style.display = "none" })
+
+volumeControl.addEventListener("click", async (e: MouseEvent) => {
+    const clickedValue = e.offsetX / volumeControl.offsetWidth * 100
+    volumeControl.value = Math.ceil(clickedValue)
+    if (currentMusic !== null) { currentMusic.volume = volumeControl.value / 100 }
+    else if (player !== null) { await player.setVolume(volumeControl.value) }
+})
+volumeControl.addEventListener("mousemove", async (e: MouseEvent) => {
+    selectedVolume.style.display = "block"
+    const clickedValue = e.offsetX / volumeControl.offsetWidth * 100
+
+    selectedVolume.innerText = Math.ceil(clickedValue).toString()
+    selectedVolume.style.left = e.pageX+"px"
+})
+
+volumeControl.addEventListener("mouseleave", () => { selectedVolume.style.display = "none" })
 
 playStopBtn.addEventListener("click", async () => {
     if (currentMusic == null && player == null) { return }
