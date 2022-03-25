@@ -89,7 +89,9 @@ async function makeList() {
     파일 추가는 잘 만들고
     유튜브 영상은 링크 받으면 제목 크롤링해서 등록 
     이 모든 과정은 editList 함수를 사용바람
-    매개변수 : listName: string, content: jsObject, type: string */ 
+    매개변수 : listName: string, content: jsObject, type: string
+    
+    만약 폴더나 유튜브로 등록한 플레이리스트라면 파편화 방지를 위해 이 함수 사용 금지*/ 
 }
 
 function deleteList(name: string):void {
